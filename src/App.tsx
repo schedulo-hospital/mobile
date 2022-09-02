@@ -5,18 +5,22 @@ import {client, TOKEN_KEY} from './gql/client'
 import {Navigation} from 'react-native-navigation'
 import {NavigationProvider} from 'react-native-navigation-hooks'
 import {registerScreens} from 'react-native-navigation-register-screens'
+import {ThemeProvider} from 'styled-components/native'
 import RNSInfo from 'react-native-sensitive-info'
 import Routes from './screens/Routes'
 
 import Home from './screens/Home'
 import Login from './screens/Login'
+import {theme} from './theme'
 
 registerScreens([Home, Login], Component => (props: any) => {
   return (
     <NavigationProvider value={{componentId: props.componentId}}>
-      <Provider value={client}>
-        <Component {...props} />
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <Provider value={client}>
+          <Component {...props} />
+        </Provider>
+      </ThemeProvider>
     </NavigationProvider>
   )
 })

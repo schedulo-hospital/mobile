@@ -1,21 +1,15 @@
 import React from 'react'
-import {Button, SafeAreaView, Text} from 'react-native'
+import {SafeAreaView} from 'react-native'
 import {setRoot} from 'react-native-navigation-hooks'
 import {mainRoot} from '../App'
 import Routes from './Routes'
+import Button from '../components/Button'
+import Title from '../components/Title'
 
 const Login = () => {
   return (
     <SafeAreaView>
-      <Text
-        style={{
-          marginTop: 40,
-          textAlign: 'center',
-          fontSize: 20,
-          fontWeight: 'bold',
-        }}>
-        Schedulo login
-      </Text>
+      <Title>Schedulo login</Title>
       <Button
         title="Login"
         onPress={() => {
