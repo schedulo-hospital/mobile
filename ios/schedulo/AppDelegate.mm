@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 
+#import <ReactNativeNavigation/ReactNativeNavigation.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -44,20 +45,27 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 #endif
 
   NSDictionary *initProps = [self prepareInitialProps];
-  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"schedulo", initProps);
+  // UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"schedulo", initProps);
 
-  if (@available(iOS 13.0, *)) {
-    rootView.backgroundColor = [UIColor systemBackgroundColor];
-  } else {
-    rootView.backgroundColor = [UIColor whiteColor];
-  }
+//  if (@available(iOS 13.0, *)) {
+//    rootView.backgroundColor = [UIColor systemBackgroundColor];
+//  } else {
+//    rootView.backgroundColor = [UIColor whiteColor];
+//  }
 
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
+  // RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  [ReactNativeNavigation bootstrapWithBridge:bridge];
+  
+  //self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  //UIViewController *rootViewController = [UIViewController new];
+  //rootViewController.view = rootView;
+  // self.window.rootViewController = rootViewController;
+  //[self.window makeKeyAndVisible];
   return YES;
+}
+
+- (NSArray<id<RCTBridgeModule>> *)extraModulesForBridge:(RCTBridge *)bridge {
+  return [ReactNativeNavigation extraModulesForBridge:bridge];
 }
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.

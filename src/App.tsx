@@ -1,26 +1,44 @@
 import React from 'react'
-import {SafeAreaView, Text} from 'react-native'
 import {Provider} from 'urql'
-import {client} from './gql/client'
-import Home from './screens/Home'
+import {client, TOKEN_KEY} from './gql/client'
 
-const App = () => {
+import {Navigation} from 'react-native-navigation'
+import {NavigationProvider} from 'react-native-navigation-hooks'
+import {registerScreens} from 'react-native-navigation-register-screens'
+import RNSInfo from 'react-native-sensitive-info'
+import Routes from './screens/Routes'
+
+import Home from './screens/Home'
+import Login from './screens/Login'
+
+registerScreens([Home, Login], Component => (props: any) => {
   return (
-    <Provider value={client}>
-      <SafeAreaView>
-        <Text
-          style={{
-            marginTop: 40,
-            textAlign: 'center',
-            fontSize: 20,
-            fontWeight: 'bold',
-          }}>
-          Schedulo
-        </Text>
-        <Home />
-      </SafeAreaView>
-    </Provider>
+    <NavigationProvider value={{componentId: props.componentId}}>
+      <Provider value={client}>
+        <Component {...props} />
+      </Provider>
+    </NavigationProvider>
   )
+})
+
+export const loginRoot = {
+  root: {
+    component: {
+      name: Routes.LOGIN,
+    },
+  },
 }
 
-export default App
+export const mainRoot = {
+  root: {
+    component: {
+      name: Routes.HOME,
+    },
+  },
+}
+
+Navigation.events().registerAppLaunchedListener(async () => {
+  const token = await RNSInfo.getItem(TOKEN_KEY, {})
+
+  await Navigation.setRoot(token ? mainRoot : loginRoot)
+})
