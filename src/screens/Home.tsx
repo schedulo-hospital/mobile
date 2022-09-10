@@ -8,6 +8,8 @@ import Button from '../components/Button'
 import Loading from '../components/Loading'
 import ServerError from '../components/ServerError'
 import Title from '../components/Title'
+import RNSInfo from 'react-native-sensitive-info';
+import { TOKEN_KEY } from '../gql/client'
 
 const Home = () => {
   const [{data, fetching, error}] = useCurrentUserQuery()
@@ -18,17 +20,14 @@ const Home = () => {
       {fetching && <Loading />}
       {error && <ServerError error={error} />}
 
-      {data && (
-        <>
-          <Text>{data?.currentUser?.name}</Text>
-          <Button
-            title="Logout"
-            onPress={() => {
-              setRoot(loginRoot)
-            }}
-          />
-        </>
-      )}
+      <Text>{data?.currentUser?.name}</Text>
+      <Button
+        title="Logout"
+        onPress={async () => {
+          await RNSInfo.deleteItem(TOKEN_KEY, {})
+          setRoot(loginRoot)
+        }}
+      />
     </SafeAreaView>
   )
 }

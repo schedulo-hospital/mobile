@@ -58,7 +58,7 @@ const didAuthError = ({error}: {error: CombinedError}) => {
 }
 
 export const client = createClient({
-  url: 'http://172.20.10.9:8080/graphql',
+  url: 'http://192.168.100.247:8080/graphql',
   exchanges: [
     authExchange({
       getAuth,
